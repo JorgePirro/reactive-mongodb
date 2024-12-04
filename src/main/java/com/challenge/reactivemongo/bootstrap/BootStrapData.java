@@ -1,9 +1,7 @@
 package com.challenge.reactivemongo.bootstrap;
 
 import com.challenge.reactivemongo.domain.Beer;
-import com.challenge.reactivemongo.domain.Customer;
 import com.challenge.reactivemongo.repositories.BeerRepository;
-import com.challenge.reactivemongo.repositories.CustomerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -16,7 +14,6 @@ import java.time.LocalDateTime;
 public class BootStrapData implements CommandLineRunner {
 
     private final BeerRepository beerRepository;
-    private final CustomerRepository customerRepository;
 
     @Override
     public void run(String... args) throws Exception {
@@ -24,10 +21,6 @@ public class BootStrapData implements CommandLineRunner {
                 .doOnSuccess(success -> {
                     loadBeerData();
                 }).subscribe();
-
-        customerRepository.deleteAll()
-                .doOnSuccess(success -> loadCustomerData())
-                .subscribe();
     }
 
     private void loadBeerData() {
@@ -69,27 +62,6 @@ public class BootStrapData implements CommandLineRunner {
                         beer -> System.out.println(beer.toString()));
                 beerRepository.save(beer3).subscribe(
                         beer -> System.out.println(beer.toString()));
-            }
-        });
-    }
-
-    private void loadCustomerData() {
-        customerRepository.count().subscribe(count -> {
-            if(count == 0){
-                customerRepository.save(Customer.builder()
-                                .customerName("Customer 1")
-                                .build())
-                        .subscribe();
-
-                customerRepository.save(Customer.builder()
-                                .customerName("Customer 2")
-                                .build())
-                        .subscribe();
-
-                customerRepository.save(Customer.builder()
-                                .customerName("Customer 3")
-                                .build())
-                        .subscribe();
             }
         });
     }
