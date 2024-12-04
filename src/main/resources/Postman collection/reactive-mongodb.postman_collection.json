@@ -1,0 +1,290 @@
+{
+	"info": {
+		"_postman_id": "4a72d5f7-43ea-45ab-8978-529d381f0d8d",
+		"name": "reactive-mongodb",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "2389821"
+	},
+	"item": [
+		{
+			"name": "listAllBeer",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Parsear la respuesta como JSON\r",
+							"var jsonData = pm.response.json();\r",
+							"\r",
+							"// Extraer la \"id\" del primer objeto de la lista\r",
+							"var firstId = jsonData[0].id;\r",
+							"\r",
+							"// Guardar la \"id\" como una variable de entorno\r",
+							"pm.environment.set(\"beerId\", firstId);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"packages": {},
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/beer",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"beer"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getBeerById",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"\r",
+							"// Guardar el valor de \"id\" en una variable de entorno\r",
+							"pm.environment.set(\"beerId\", jsonData.id);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/beer/{{beerId}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"beer",
+						"{{beerId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UpdateBeer",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"\r",
+							"// Guardar el valor de \"id\" en una variable de entorno\r",
+							"pm.environment.set(\"beerId\", jsonData.id);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Corona Extra\",\r\n    \"beerStyle\": \"Lager\",\r\n    \"upc\": \"11111\",\r\n    \"quantityOnHand\": 122,\r\n    \"price\": 5.99,\r\n    \"createdDate\": \"2024-12-04T13:35:25.013\",\r\n    \"lastModifiedDate\": \"2024-12-04T13:35:25.013\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/beer/{{beerId}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"beer",
+						"{{beerId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getById - test Update",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"\r",
+							"// Guardar el valor de \"id\" en una variable de entorno\r",
+							"pm.environment.set(\"beerId\", jsonData.id);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/beer/{{beerId}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"beer",
+						"{{beerId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CreateBeer",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"\r",
+							"// Guardar el valor de \"id\" en una variable de entorno\r",
+							"pm.environment.set(\"beerId\", jsonData.id);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"// Generar la fecha actual en formato ISO 8601\r",
+							"var today = new Date().toISOString();\r",
+							"\r",
+							"// Guardar la fecha actual en una variable de entorno\r",
+							"pm.environment.set(\"currentDate\", today);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Heineken\",\r\n    \"beerStyle\": \"Pale Lager\",\r\n    \"upc\": \"22222\",\r\n    \"quantityOnHand\": 200,\r\n    \"price\": 6.49,\r\n    \"createdDate\": \"{{currentDate}}\",\r\n    \"lastModifiedDate\": \"{{currentDate}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/beer",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"beer"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteBeer",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"\r",
+							"// Guardar el valor de \"id\" en una variable de entorno\r",
+							"pm.environment.set(\"beerId\", jsonData.id);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"// Generar la fecha actual en formato ISO 8601\r",
+							"var today = new Date().toISOString();\r",
+							"\r",
+							"// Guardar la fecha actual en una variable de entorno\r",
+							"pm.environment.set(\"currentDate\", today);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Heineken\",\r\n    \"beerStyle\": \"Pale Lager\",\r\n    \"upc\": \"22222\",\r\n    \"quantityOnHand\": 200,\r\n    \"price\": 6.49,\r\n    \"createdDate\": \"{{currentDate}}\",\r\n    \"lastModifiedDate\": \"{{currentDate}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/beer/{{beerId}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"beer",
+						"{{beerId}}"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
